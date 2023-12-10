@@ -1,6 +1,6 @@
 <!-- templates/index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,14 +15,20 @@
     </div>
 
     <script>
+                // liffオブジェクトをグローバルスコープで宣言
+        let liff;
+
         async function initializeLiff() {
-            await liff.init({ liffId: '2002096181-Ryql27BY' });
+            // liffオブジェクトを初期化
+            liff = await liff.init({ liffId: '2002096181-Ryql27BY' });
+            
             if (liff.isLoggedIn()) {
                 runApp();
             } else {
                 liff.login();
             }
-        }
+}
+
 
         function runApp() {
             liff.getProfile().then(profile => {
