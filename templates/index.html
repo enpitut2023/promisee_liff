@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIFF Map App</title>
-    
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js" crossorigin="anonymous"></script>    
 </head>
 <body>
     <h1>LIFF Map App</h1>
@@ -13,35 +13,7 @@
         <p id="userName"></p>
         <p id="userLocation"></p>
     </div>
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
-    <script>
-
-        liff.init({
-            liffId: '2002096181-Ryql27BY', // Use own liffId
-            withLoginOnExternalBrowser: true, // Enable automatic login process
-        }).then(() => {
-            // Start to use liff's api
-            runApp();
-        });
-
-
-        function runApp() {
-            liff.getProfile().then(profile => {
-                const userName = profile.displayName;
-
-                liff.getGeolocation()
-                    .then(location => {
-                        const userLocationText = `Latitude: ${location.latitude}, Longitude: ${location.longitude}`;
-
-                        // Display user information on the page
-                        document.getElementById('userName').innerText = `User: ${userName}`;
-                        document.getElementById('userLocation').innerText = `Location: ${userLocationText}`;
-                    })
-                    .catch(error => {
-                        console.error('Error getting location', error);
-                    });
-            });
-        }
-    </script>
+    
+    <script src="../script.js"></script>
 </body>
 </html>
