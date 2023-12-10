@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIFF Map App</title>
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.14.0/sdk.js"></script>
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
 </head>
 <body>
     <h1>LIFF Map App</h1>
@@ -15,19 +15,14 @@
     </div>
 
     <script>
-                // liffオブジェクトをグローバルスコープで宣言
-        let liff;
 
-        async function initializeLiff() {
-            // liffオブジェクトを初期化
-            liff = await liff.init({ liffId: '2002096181-Ryql27BY' });
-            
-            if (liff.isLoggedIn()) {
-                runApp();
-            } else {
-                liff.login();
-            }
-}
+        liff.init({
+            liffId: '2002096181-Ryql27BY', // Use own liffId
+            withLoginOnExternalBrowser: true, // Enable automatic login process
+        }).then(() => {
+            // Start to use liff's api
+            runApp();
+        });
 
 
         function runApp() {
@@ -47,8 +42,6 @@
                     });
             });
         }
-
-        initializeLiff();
     </script>
 </body>
 </html>
