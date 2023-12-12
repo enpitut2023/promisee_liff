@@ -36,8 +36,10 @@ def submit():
     format['answer']=response_type
     doc = doc_ref.document()
     doc.set(format)
-
-    return jsonify({'result': response_type == 'yes'})
+    if response_type=='yes':
+        return jsonify({'result': True, 'message': 'yes'})
+    else:
+        return jsonify({'result': True, 'message': 'no'})
 
 
 if __name__ == '__main__':
