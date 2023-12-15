@@ -51,7 +51,7 @@ def submit():
     # 既存データを取得し、存在しない場合は空の辞書をセット
     existing_data = doc.get().to_dict() or {}
 
-    # それぞれのリストを取得し、存在しない場合は空のリストをセット
+    # それぞれのリストを取得し、存在しない場合は空のリストをセットする
     username_list = existing_data.get('username', [])
     answer_list = existing_data.get('answer', [])
 
