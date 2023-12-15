@@ -8,8 +8,10 @@ liff.init({
 function submitResponse(responseType) {
     liff.getProfile().then(profile => {
         const userName = profile.displayName;
-
-            // Send data to Flask backend
+        // ボタンを無効にする
+        document.getElementById('yesButton').disabled = true;
+        document.getElementById('noButton').disabled = true;
+        // Send data to Flask backend
         fetch('/submit_response', {
             method: 'POST',
             headers: {

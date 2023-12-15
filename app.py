@@ -34,7 +34,7 @@ format={
 def index():
         # URL パラメータから group_id を取得
         group_id = request.args.get('group_id')       
-        session.permanent = True  # セッションを永続的に設定
+        session.permanent = True  # セッションを永続的に設定する
         app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
         session['group_id'] = group_id  # group_id をセッションにセット
         return render_template('index.html')
@@ -51,7 +51,7 @@ def submit():
     # 既存データを取得し、存在しない場合は空の辞書をセット
     existing_data = doc.get().to_dict() or {}
 
-    # それぞれのリストを取得し、存在しない場合は空のリストをセット
+    # それぞれのリストを取得し、存在しない場合は空のリストをセットする
     username_list = existing_data.get('username', [])
     answer_list = existing_data.get('answer', [])
 
