@@ -58,19 +58,23 @@ def submit():
     # 新しい要素をそれぞれのリストに追加
     username_list.append(username)
     answer_list.append(answer)
-
     # ドキュメントにデータを更新
     doc.set({'username': username_list, 'answer': answer_list}, merge=True)
 
-
-
-    # ドキュメントを更新
-    doc.set({'username': username_list, 'answer': answer_list}, merge=True)  # 実際のリストのキーを置き換える
-
-    if answer=='yes':
-        return jsonify({'result': True, 'message': 'yes'})
+    group_count=doc.get().to_dict()["group_count"]
+    member_count=len(doc.get().to_dict()["username"])
+    # 人数分集まったかを判定
+    if member_count==group_count:
+        # ギフトを送る
+        if answer=='yes':
+            return jsonify({'result': True, 'message': 'yes','judge':1})
+        else:
+            return jsonify({'result': True, 'message': 'no','judge':1})
     else:
-        return jsonify({'result': True, 'message': 'no'})
+        if answer=='yes':
+            return jsonify({'result': True, 'message': 'yes','judge':0})
+        else:
+            return jsonify({'result': True, 'message': 'no','judge':0})
 
 
 if __name__ == '__main__':
