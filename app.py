@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify, redirect, session, url_for, flash, get_flashed_messages, session
-import pyrebase
 import firebase_admin
 from firebase_admin import credentials,firestore
 import requests
