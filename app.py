@@ -67,7 +67,7 @@ def submit():
     # ドキュメントを更新
     doc.set({'username': username_list, 'answer': answer_list}, merge=True)  # 実際のリストのキーを置き換える
 
-    if response_type=='yes':
+    if answer=='yes':
         return jsonify({'result': True, 'message': 'yes'})
     else:
         return jsonify({'result': True, 'message': 'no'})
