@@ -16,8 +16,8 @@ function submitResponse(responseType) {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: new URLSearchParams({
-                'user_name': userName,
-                'response_type': responseType,
+                'username': userName,
+                'answer': responseType,
             }),
         })
         .then(response => response.json())
