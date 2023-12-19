@@ -47,18 +47,23 @@ def submit():
     group_id = session['group_id'] 
     doc = doc_ref.document(group_id)
 
-    # 既存データを取得し、存在しない場合は空の辞書をセット
-    existing_data = doc.get().to_dict() or {}
+    # 同じユーザーがすでにデータベースに格納されていないかを判定
+    usernames = doc.get().to_dict()["username"]
 
-    # それぞれのリストを取得し、存在しない場合は空のリストをセットする
-    username_list = existing_data.get('username', [])
-    answer_list = existing_data.get('answer', [])
+    if username not in usernames:
 
-    # 新しい要素をそれぞれのリストに追加
-    username_list.append(username)
-    answer_list.append(answer)
-    # ドキュメントにデータを更新
-    doc.set({'username': username_list, 'answer': answer_list}, merge=True)
+        # 既存データを取得し、存在しない場合は空の辞書をセット
+        existing_data = doc.get().to_dict() or {}
+
+        # それぞれのリストを取得し、存在しない場合は空のリストをセットする
+        username_list = existing_data.get('username', [])
+        answer_list = existing_data.get('answer', [])
+
+        # 新しい要素をそれぞれのリストに追加
+        username_list.append(username)
+        answer_list.append(answer)
+        # ドキュメントにデータを更新
+        doc.set({'username': username_list, 'answer': answer_list}, merge=True)
 
     group_count=doc.get().to_dict()["group_count"]
     member_count=len(doc.get().to_dict()["username"])
