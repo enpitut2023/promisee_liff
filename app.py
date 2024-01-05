@@ -30,36 +30,36 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 
 @app.route('/')
 def index():
-        # URL パラメータから schedule_id を取得
-        schedule_id = request.args.get('schedule_id') 
+     # URL パラメータから schedule_id を取得
+    schedule_id = request.args.get('schedule_id') 
 
-        print(f'{schedule_id} にアクセスがありました')
-        try:
-            # 発行時刻を取得
-            schedule_data = schedules_doc_ref.document(schedule_id).get().to_dict()
+    print(f'{schedule_id} にアクセスがありました')
+    try:
+        # 発行時刻を取得
+        schedule_data = schedules_doc_ref.document(schedule_id).get().to_dict()
 
-            if schedule_data is not None and 'datetime' in schedule_data:
-                time = jp_timezone.localize(datetime.strptime(schedule_data['datetime'], "%Y年%m月%d日%H時%M分"))
-                print(f'{time} にアクセスがありました')
-                current_time = datetime.now(jp_timezone)
-                diff = current_time - time
+        if schedule_data is not None and 'datetime' in schedule_data:
+            time = jp_timezone.localize(datetime.strptime(schedule_data['datetime'], "%Y年%m月%d日%H時%M分"))
+            print(f'{time} にアクセスがありました')
+            current_time = datetime.now(jp_timezone)
+            diff = current_time - time
 
-                # 差分が7分未満であれば 'index.html' を表示、7分以上であれば 'error.html' を表示
-                if diff < timedelta(minutes=7):
-                    session.permanent = True  # セッションを永続的に設定する
-                    app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
-                    session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
-                    return render_template('index.html')
-                else:
-                    return render_template('error.html')
+            # 差分が7分未満であれば 'index.html' を表示、7分以上であれば 'error.html' を表示
+            if diff < timedelta(minutes=7):
+                session.permanent = True  # セッションを永続的に設定する
+                app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
+                session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
+                return render_template('index.html')
             else:
-                # スケジュールが存在しないかdatetimeが設定されていない場合のエラー処理
-                print("Error: Schedule not found or datetime not set")
-                return "Error: Schedule not found or datetime not set"
-        except Exception as e:
-            # その他の例外が発生した場合のエラー処理
-            print(f"Error: {e}")
-            return "Error: An unexpected error occurred"
+                return render_template('error.html')
+        else:
+            # スケジュールが存在しないかdatetimeが設定されていない場合のエラー処理
+            print("Error: Schedule not found or datetime not set")
+            return "Error: Schedule not found or datetime not set"
+    except Exception as e:
+        # その他の例外が発生した場合のエラー処理
+        print(f"Error: {e}")
+        return "Error: An unexpected error occurred"
 
             
 
