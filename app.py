@@ -33,7 +33,10 @@ format={
 @app.route('/<issue_time>')
 def index(issue_time):
         # URL パラメータから group_id を取得
-        group_id = request.args.get('group_id')      
+        group_id = request.args.get('group_id')  
+        # 特定のパス（例: favicon.ico）に対するリクエストの場合、処理をスキップ
+        if issue_time.lower() == 'favicon.ico':
+            return "OK"  # 何か特定の応答を返す    
         # 文字列からdatetimeオブジェクトに変換
         time_param = datetime.strptime(issue_time, "%Y-%m-%d-%H-%M-%S")
 
