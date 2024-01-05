@@ -36,9 +36,9 @@ def index():
         group_id = request.args.get('group_id')      
         # URLからクエリパラメータ 'time' の値を取得
         time_param = request.args.get('time') 
-        # session.permanent = True  # セッションを永続的に設定する
-        # app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
-        # session['group_id'] = group_id  # group_id をセッションにセット
+        session.permanent = True  # セッションを永続的に設定する
+        app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
+        session['group_id'] = group_id  # group_id をセッションにセット
         if time_param is not None:
             current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
             time_diff = current_time - time_param
@@ -50,7 +50,6 @@ def index():
         else:
             # time_paramがNoneの場合の処理
             print("time_param is None")
-
 
 
 @app.route('/submit_response',methods=["POST"])
