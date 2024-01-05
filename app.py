@@ -41,6 +41,7 @@ def index():
 
             # 同じユーザーがすでにデータベースに格納されていないかを判定
         time_str = schedule_doc.get().to_dict()["datetime"]
+        print(time_str) 
         time =jp_timezone.localize(datetime.strptime(time_str, "%Y年%m月%d日%H時%M分"))
         current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
         diff = current_time - time
