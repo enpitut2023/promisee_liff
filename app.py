@@ -32,9 +32,7 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 def index():
         # URL パラメータから schedule_id を取得
         schedule_id = request.args.get('schedule_id') 
-        session.permanent = True  # セッションを永続的に設定する
-        app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
-        session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
+
         print(f'{schedule_id} にアクセスがありました')
         try:
             # 発行時刻を取得
@@ -48,6 +46,9 @@ def index():
 
                 # 差分が7分未満であれば 'index.html' を表示、7分以上であれば 'error.html' を表示
                 if diff < timedelta(minutes=7):
+                    session.permanent = True  # セッションを永続的に設定する
+                    app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
+                    session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
                     return render_template('index.html')
                 else:
                     return render_template('error.html')
