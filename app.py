@@ -28,8 +28,10 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 
 
 
-@app.route('/<schedule_id>')
-def index(schedule_id): 
+@app.route('/questionnaire')
+def index():
+    # URL パラメータから schedule_id を取得
+    schedule_id = request.args.get('schedule_id') 
     print(f'{schedule_id}だ')
     session.permanent = True  # セッションを永続的に設定する
     app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
