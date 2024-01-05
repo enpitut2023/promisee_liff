@@ -51,6 +51,11 @@ def index():
         return render_template('index.html')
             
 
+@app.route('/gifts',methods=["POST"])
+def gifts():
+    # ここでFirebaseからデータを取得
+    gifts_data = db.collection('gifts')
+    return render_template('gifts.html', gifts=gifts_data)
 
 @app.route('/submit_response',methods=["POST"])
 def submit():
