@@ -39,12 +39,18 @@ def index():
         # session.permanent = True  # セッションを永続的に設定する
         # app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
         # session['group_id'] = group_id  # group_id をセッションにセット
-        current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
-        time_diff = current_time - time_param
-        if time_diff > timedelta(minutes=10):
-            return render_template('error.html')
+        if time_param is not None:
+            current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
+            time_diff = current_time - time_param
+            if time_diff > timedelta(minutes=10):
+                return render_template('error.html')
+            else:
+                return render_template('index.html')
+            
         else:
-            return render_template('index.html')
+            # time_paramがNoneの場合の処理
+            print("time_param is None")
+
 
 
 @app.route('/submit_response',methods=["POST"])
