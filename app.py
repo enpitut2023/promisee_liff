@@ -12,8 +12,8 @@ cred = credentials.Certificate("key.json")
 
 firebase_admin.initialize_app(cred)
 db = firestore.client()
-
-doc_ref = db.collection('groups')
+group_doc_ref = db.collection('groups')
+schedules_doc_ref = db.collection('schedules')
 
 def generate_secret_key(length=24):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -32,8 +32,8 @@ format={
 
 @app.route('/')
 def index():
-        # URL パラメータから group_id を取得
-        group_id = request.args.get('group_id')  
+        # URL パラメータから schedule_id を取得
+        schedule_id = request.args.get('schedule_id')  
         # # 特定のパス（例: favicon.ico）に対するリクエストの場合、処理をスキップ
         # if issue_time.lower() == 'favicon.ico':
         #     return "OK"  # 何か特定の応答を返す    
@@ -42,7 +42,7 @@ def index():
 
         session.permanent = True  # セッションを永続的に設定する
         app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
-        session['group_id'] = group_id  # group_id をセッションにセット
+        session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
         # if time_param is not None:
         #     current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
         #     time_diff = current_time - time_param
@@ -58,16 +58,16 @@ def submit():
     username = request.form.get('username')
     answer = request.form.get('answer')
 
-    group_id = session['group_id'] 
-    doc = doc_ref.document(group_id)
+    schedule_id = session['schedule_id'] 
+    schedule_doc = schedules_doc_ref.document(schedule_id)
 
     # 同じユーザーがすでにデータベースに格納されていないかを判定
-    usernames = doc.get().to_dict()["username"]
+    usernames = schedule_doc.get().to_dict()["username"]
 
     if username not in usernames:
 
         # 既存データを取得し、存在しない場合は空の辞書をセット
-        existing_data = doc.get().to_dict() or {}
+        existing_data = schedule_doc.get().to_dict() or {}
 
         # それぞれのリストを取得し、存在しない場合は空のリストをセットする
         username_list = existing_data.get('username', [])
@@ -77,10 +77,10 @@ def submit():
         username_list.append(username)
         answer_list.append(answer)
         # ドキュメントにデータを更新
-        doc.set({'username': username_list, 'answer': answer_list}, merge=True)
+        schedule_doc.set({'username': username_list, 'answer': answer_list}, merge=True)
 
-    group_count=doc.get().to_dict()["group_count"]
-    member_count=len(doc.get().to_dict()["username"])
+    group_count=schedule_doc.get().to_dict()["group_count"]
+    member_count=len(schedule_doc.get().to_dict()["username"])
     # 人数分集まったかを判定
     if member_count==group_count:
         # ギフトを送る
