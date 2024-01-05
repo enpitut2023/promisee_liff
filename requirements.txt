@@ -4,4 +4,3 @@ gunicorn
 firebase
 firebase_admin
 requests
-apscheduler
