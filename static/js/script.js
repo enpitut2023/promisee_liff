@@ -1,5 +1,5 @@
 liff.init({
-    liffId: '2002625165-347VlQvl', // Use own liffId
+    liffId: '2002096181-Ryql27BY', // Use own liffId
     withLoginOnExternalBrowser: true, // Enable automatic login process
 })
 
