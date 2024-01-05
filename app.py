@@ -14,6 +14,8 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 group_doc_ref = db.collection('groups')
 schedules_doc_ref = db.collection('schedules')
+# タイムゾーンを日本時間に設定
+jp_timezone = pytz.timezone('Asia/Tokyo')
 
 def generate_secret_key(length=24):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -23,32 +25,28 @@ def generate_secret_key(length=24):
 app = Flask(__name__)
 app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設定
 
-format={
-    "username":None,
-    "answer":None,
-}
 
 
 
 @app.route('/')
 def index():
         # URL パラメータから schedule_id を取得
-        schedule_id = request.args.get('schedule_id')  
-        # # 特定のパス（例: favicon.ico）に対するリクエストの場合、処理をスキップ
-        # if issue_time.lower() == 'favicon.ico':
-        #     return "OK"  # 何か特定の応答を返す    
-        # # 文字列からdatetimeオブジェクトに変換
-        # time_param = datetime.strptime(issue_time, "%Y-%m-%d-%H-%M-%S")
-
+        schedule_id = request.args.get('schedule_id') 
         session.permanent = True  # セッションを永続的に設定する
         app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
         session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
-        # if time_param is not None:
-        #     current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
-        #     time_diff = current_time - time_param
-        #     if time_diff > timedelta(minutes=10):
-        #         return render_template('error.html')
-        #     else:
+        # 発行時刻を取得 
+        time=schedules_doc_ref.document(schedule_id).get().to_dict()["datetime"]
+        time=jp_timezone.localize(datetime.strptime(time, "%Y年%m月%d日%H時%M分"))
+        current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
+        diff = time - current_time
+        if diff < timedelta(minutes=7):
+            return render_template('index.html')
+        else:  
+            return render_template('error.html')
+
+
+        
         return render_template('index.html')
             
 
