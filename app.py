@@ -52,9 +52,17 @@ def index():
 
 @app.route('/gifts')
 def gifts():
-    # ここでFirebaseからデータを取得
-    gifts_data = db.collection('gifts')
-    return render_template('gifts.html', gifts=gifts_data)
+    # クエリパラメータを取得
+    min_price = request.args.get('min_price', default=0, type=int)
+    max_price = request.args.get('max_price', default=1000, type=int)
+
+    gifts_data = db.collection('gifts').get() # ギフトデータ取得
+
+    # テスト用ギフトデータ出力
+    for gift in gifts_data:
+        gift_dict = gift.to_dict()
+        print(gift_dict)
+    return render_template('gifts.html', gifts=gifts_data, min_price=min_price, max_price=max_price)
 
 @app.route('/submit_response',methods=["POST"])
 def submit():
