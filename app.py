@@ -36,6 +36,9 @@ def index():
         group_id = request.args.get('group_id')      
         # URLからクエリパラメータ 'time' の値を取得
         time_param = request.args.get('time') 
+        # 文字列からdatetimeオブジェクトに変換
+        time_param = datetime.strptime(time_param, "%Y-%m-%d %H:%M:%S")
+
         session.permanent = True  # セッションを永続的に設定する
         app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
         session['group_id'] = group_id  # group_id をセッションにセット
