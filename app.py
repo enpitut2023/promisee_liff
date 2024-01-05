@@ -30,25 +30,24 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 
 @app.route('/')
 def index():
-        # URL パラメータから schedule_id を取得
-        schedule_id = request.args.get('schedule_id') 
-        session.permanent = True  # セッションを永続的に設定する
-        app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
-        session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
-        # 発行時刻を取得 
-        time=schedules_doc_ref.document(schedule_id).get().to_dict()["datetime"]
-        print(schedule_id)
-        time=jp_timezone.localize(datetime.strptime(time, "%Y年%m月%d日%H時%M分"))
-        current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
-        diff = current_time-time
-        if diff < timedelta(minutes=7):
-            return render_template('index.html')
-        else:  
-            return render_template('error.html')
-
-
-        
+    # URL パラメータから schedule_id を取得
+    schedule_id = request.args.get('schedule_id') 
+    print(f'{schedule_id}だ')
+    session.permanent = True  # セッションを永続的に設定する
+    app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
+    session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
+    print(f'{schedule_id}です')
+    # 発行時刻を取得 
+    time=schedules_doc_ref.document(schedule_id).get().to_dict()["datetime"]
+    print(schedule_id)
+    time=jp_timezone.localize(datetime.strptime(time, "%Y年%m月%d日%H時%M分"))
+    current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
+    diff = current_time-time
+    if diff < timedelta(minutes=7):
         return render_template('index.html')
+    else:  
+        return render_template('error.html')
+
             
 
 @app.route('/gifts',methods=["POST"])
