@@ -74,10 +74,8 @@ def gifts():
     print(min_price)
 
     # テスト用ギフトデータ出力
-    for gift in gifts_data:
-        gift_dict = gift.to_dict()
-        if int(gift_dict['price']) < min_price and int(gift_dict['price']) > max_price:
-            gifts_data.remove(gift)
+    # for gift in gifts_data:
+    #     gift_dict = gift.to_dict()
     return render_template('gifts.html', gifts=gifts_data, min_price=min_price, max_price=max_price)
 
 @app.route('/submit_response',methods=["POST"])

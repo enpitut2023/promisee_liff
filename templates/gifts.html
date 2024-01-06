@@ -11,12 +11,15 @@
     <h1>LINEギフト一覧</h1>
     <div>
         {% for gift in gifts %}
-            <div>
-                <h2>{{ gift.to_dict()['name'] }}</h2>
-                <img src="{{ gift.to_dict()['image_url'] }}" alt="{{ gift.to_dict()['name'] }}" width="300">
-                <p>価格: ¥{{ gift.to_dict()['price'] }}</p>
-                <a href="{{ gift.to_dict()['gift_url'] }}" target="_blank">詳細を見る</a>
-            </div>
+            {% set price = gift.to_dict()['price'] | int %}
+            {% if min_price <= price and price <= max_price %}
+                <div>
+                    <h2>{{ gift.to_dict()['name'] }}</h2>
+                    <img src="{{ gift.to_dict()['image_url'] }}" alt="{{ gift.to_dict()['name'] }}" width="300">
+                    <p>価格: ¥{{ gift.to_dict()['price'] }}</p>
+                    <a href="{{ gift.to_dict()['gift_url'] }}" target="_blank">詳細を見る</a>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 </body>
