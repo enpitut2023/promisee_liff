@@ -39,7 +39,6 @@ def index():
 
     if schedule_id == '':
         return render_template('error.html')
-    print(f'{schedule_id}だ')
     session.permanent = True  # セッションを永続的に設定する
     app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
     session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
