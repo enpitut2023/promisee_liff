@@ -76,7 +76,7 @@ def gifts():
     # テスト用ギフトデータ出力
     for gift in gifts_data:
         gift_dict = gift.to_dict()
-        if gift_dict['price'] < min_price and gift_dict['price'] > max_price:
+        if int(gift_dict['price']) < min_price and int(gift_dict['price']) > max_price:
             gifts_data.remove(gift)
     return render_template('gifts.html', gifts=gifts_data, min_price=min_price, max_price=max_price)
 
