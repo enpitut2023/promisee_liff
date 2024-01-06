@@ -108,11 +108,17 @@ def submit():
     member_count=len(schedule_doc.get().to_dict()["username"])
     # 人数分集まったかを判定
     if member_count==group_count:
-        # ギフトを送る
-        if answer=='yes':
-            return jsonify({'result': True, 'message': 'yes','judge':1})
+        # 人数分集まった
+        if 'no' in answer_list:
+            if answer=='yes':
+                return jsonify({'result': True, 'message': 'yes','judge':2})
+            else:
+                return jsonify({'result': True, 'message': 'no','judge':2})
         else:
-            return jsonify({'result': True, 'message': 'no','judge':1})
+            if answer=='yes':
+                return jsonify({'result': True, 'message': 'yes','judge':1})
+            else:
+                return jsonify({'result': True, 'message': 'no','judge':1})
     else:
         if answer=='yes':
             return jsonify({'result': True, 'message': 'yes','judge':0})

@@ -23,7 +23,7 @@ function submitResponse(responseType) {
         })
         .then(response => response.json())
         .then(data => {
-            if(data.judge==1){
+            if(data.judge==2){
                 liff.sendMessages([
                     {
                         "type":"text",
@@ -31,6 +31,13 @@ function submitResponse(responseType) {
                     }
                 ])
                 print(data.judge)
+            } else if(data.judge==1){
+                liff.sendMessages([
+                    {
+                        "type":"text",
+                        "text":"全員間に合ってよかったのだ〜"
+                    }
+                ])
             }
 
             // Display the response with an alert
