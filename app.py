@@ -31,8 +31,6 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 def index():
     # クエリパラメータから schedule_id を取得
     liff_state = request.args.get('liff.state', default='', type=str)
-    if liff_state == '':
-        return render_template('first.html')
     
     # '?' 以下のクエリパラメータを除去し、'=' を基準に分割して schedule_id を取り出す
     if '=' in liff_state:

@@ -1,7 +1,7 @@
-liff.init({
-    liffId: '2002096181-Ryql27BY',
-    withLoginOnExternalBrowser: true,
-})
+// liff.init({
+//     liffId: '2002096181-Ryql27BY',
+//     withLoginOnExternalBrowser: true,
+// })
 
 
 function submitResponse(responseType) {
