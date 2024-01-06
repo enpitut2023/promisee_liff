@@ -30,11 +30,9 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 @app.route('/question')
 def index():
     # クエリパラメータから schedule_id を取得
-    liff_state = request.args.get('liff.state', default='', type=str)
-    
-    # '?' 以下のクエリパラメータを除去し、'=' を基準に分割して schedule_id を取り出す
-    if '=' in liff_state:
-        schedule_id = schedule_id.split('=')[1]
+    schedule_id = request.args.get('schedule_id', default='', type=str)
+    if schedule_id == '':
+        return render_template('first.html')
 
     session.permanent = True  # セッションを永続的に設定する
     app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
