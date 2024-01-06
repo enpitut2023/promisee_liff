@@ -28,7 +28,7 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 
 
 
-@app.route('/')
+@app.route('/question')
 def index():
     # URL パラメータから schedule_id を取得
     schedule_id = request.args.get('schedule_id') 
@@ -37,20 +37,32 @@ def index():
     app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
     session['schedule_id'] = schedule_id  # schedule_id をセッションにセット
     print(f'{schedule_id}です')
-    return render_template('index.html')
     # 発行時刻を取得 
-    # time=schedules_doc_ref.document(schedule_id).get().to_dict()["datetime"]
-    # print(schedule_id)
-    # time=jp_timezone.localize(datetime.strptime(time, "%Y年%m月%d日%H時%M分"))
-    # current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
-    # diff = current_time-time
-    # if diff < timedelta(minutes=7):
-    #     return render_template('index.html')
-    # else:  
-    #     return render_template('error.html')
+    time=schedules_doc_ref.document(schedule_id).get().to_dict()["datetime"]
+    print(schedule_id)
+    time=jp_timezone.localize(datetime.strptime(time, "%Y年%m月%d日%H時%M分"))
+    current_time = datetime.now(pytz.timezone('Asia/Tokyo'))
+    diff = current_time-time
+    if diff < timedelta(minutes=7):
+        return render_template('index.html')
+    else:  
+        return render_template('error.html')
 
             
 
+@app.route('/gifts')
+def gifts():
+    # クエリパラメータを取得
+    min_price = request.args.get('min_price', default=0, type=int)
+    max_price = request.args.get('max_price', default=1000, type=int)
+
+    gifts_data = db.collection('gifts').get() # ギフトデータ取得
+
+    # テスト用ギフトデータ出力
+    for gift in gifts_data:
+        gift_dict = gift.to_dict()
+        print(gift_dict)
+    return render_template('gifts.html', gifts=gifts_data, min_price=min_price, max_price=max_price)
 
 @app.route('/submit_response',methods=["POST"])
 def submit():
