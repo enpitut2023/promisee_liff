@@ -1,6 +1,6 @@
 // LIFF初期化後のコード
 liff.init({
-    liffId: '2002096181-Ryql27BY',
+    liffId: '2002642249-Lq0RX2ZN',
     withLoginOnExternalBrowser: true,
 }).then(() => {
     // 初期化成功時の処理

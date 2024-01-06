@@ -55,6 +55,8 @@ def gifts():
     # クエリパラメータを取得
     min_price = request.args.get('min_price', default=0, type=int)
     max_price = request.args.get('max_price', default=1000, type=int)
+    if min_price==0 & max_price==1000:
+        return render_template('gift_first.html')
 
     gifts_data = db.collection('gifts').get() # ギフトデータ取得
 
