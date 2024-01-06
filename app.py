@@ -33,7 +33,7 @@ def index():
     # URL パラメータから schedule_id を取得
     schedule_id = request.args.get('schedule_id', default={}, type=str) 
     if schedule_id == {}:  # schedule_id がない場合はエラー
-        return render_template('error.html')
+        return render_template('first.html')
     print(f'{schedule_id}だ')
     session.permanent = True  # セッションを永続的に設定する
     app.permanent_session_lifetime = timedelta(days=30)  # 期限を30日に設定
