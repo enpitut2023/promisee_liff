@@ -28,7 +28,7 @@ app.secret_key = generate_secret_key()  # セッション用の秘密鍵を設�
 
 
 
-@app.route('/')
+@app.route('/question')
 def index():
     # URL パラメータから schedule_id を取得
     schedule_id = request.args.get('schedule_id') 
