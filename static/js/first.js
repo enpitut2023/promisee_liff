@@ -3,17 +3,15 @@ liff.init({
     withLoginOnExternalBrowser: true,
 }).then(() => {
     // liff.stateの値を取得
-    const liffState = liff.getOS().query;
+    const liffStateValue = decodeURIComponent(window.location.search).replace('?liff.state=', '');
 
     // バックエンドにデータを送信
-    fetch('/question', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        // liff.stateをschedule_idとして送信
-        // 他にも必要なデータがあればここに追加
-        credentials: 'include', // クッキーを含むリクエストを有効にする
+    fetch(`/question${liffStateValue}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    credentials: 'include',
     })
     .then(response => response.json())
     .then(data => {
@@ -22,6 +20,7 @@ liff.init({
     .catch(error => {
         console.error('Error fetching data', error);
     });
+
 
 }).catch((error) => {
     console.error('LIFF initialization failed', error);
