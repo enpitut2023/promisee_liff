@@ -67,6 +67,7 @@ def gifts():
     if min_price==0 and max_price==9999:
         return render_template('gift_first.html')
 
+
     gifts_data = db.collection('gifts').get() # ギフトデータ取得
     print(max_price)
     print(min_price)
