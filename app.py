@@ -50,10 +50,8 @@ def index():
         diff = current_time-time
         if diff < timedelta(minutes=7):
             return render_template('index.html')
-        else:  
-            # ドキュメントを削除
-            schedules_doc.delete()
-            print(f"スケジュール {schedule_id} が削除されました。")
+        else:   # 時間が過ぎた時
+
             return render_template('error.html')
     else:
         print(f"スケジュール {schedule_id} は存在しません。")
@@ -66,8 +64,6 @@ def gifts():
     # クエリパラメータを取得
     min_price = request.args.get('min_price', default=0, type=int)
     max_price = request.args.get('max_price', default=1000, type=int)
-    if min_price==0 and max_price==1000:
-        return render_template('gift_first.html')
 
     gifts_data = db.collection('gifts').get() # ギフトデータ取得
     print(max_price)
@@ -84,15 +80,15 @@ def submit():
     answer = request.form.get('answer')
 
     schedule_id = session['schedule_id'] 
-    schedule_doc = schedules_doc_ref.document(schedule_id)
+    schedules_doc = schedules_doc_ref.document(schedule_id)
 
     # 同じユーザーがすでにデータベースに格納されていないかを判定
-    usernames = schedule_doc.get().to_dict()["username"]
+    usernames = schedules_doc.get().to_dict()["username"]
 
     if username not in usernames:
 
         # 既存データを取得し、存在しない場合は空の辞書をセット
-        existing_data = schedule_doc.get().to_dict() or {}
+        existing_data = schedules_doc.get().to_dict() or {}
 
         # それぞれのリストを取得し、存在しない場合は空のリストをセットする
         username_list = existing_data.get('username', [])
@@ -102,19 +98,26 @@ def submit():
         username_list.append(username)
         answer_list.append(answer)
         # ドキュメントにデータを更新
-        schedule_doc.set({'username': username_list, 'answer': answer_list}, merge=True)
+        schedules_doc.set({'username': username_list, 'answer': answer_list}, merge=True)
 
-    group_count=schedule_doc.get().to_dict()["group_count"]
-    member_count=len(schedule_doc.get().to_dict()["username"])
+    group_count=schedules_doc.get().to_dict()["group_count"]
+    member_count=len(schedules_doc.get().to_dict()["username"])
     # 人数分集まったかを判定
     if member_count==group_count:
+        
         # 人数分集まった
+        # 一人でも間に合わなかった場合
         if 'no' in answer_list:
+            schedules_doc.delete()
+            print(f"スケジュール {schedule_id} が削除されました。")
             if answer=='yes':
                 return jsonify({'result': True, 'message': 'yes','judge':2})
             else:
                 return jsonify({'result': True, 'message': 'no','judge':2})
+        # 全員間に合った場合
         else:
+            schedules_doc.delete()
+            print(f"スケジュール {schedule_id} が削除されました。")
             if answer=='yes':
                 return jsonify({'result': True, 'message': 'yes','judge':1})
             else:
