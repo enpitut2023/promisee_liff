@@ -126,5 +126,27 @@ def submit():
             return jsonify({'result': True, 'message': 'no','judge':0})
 
 
+@app.route('/submit_giftsettingresponse',methods=["POST"])
+def submit_gift():
+    gift_name = request.form.get('gift_name')
+    gift_url = request.form.get('gift_url')
+    gift_price = request.form.get('gift_price')
+    gift_img_url = request.form.get('gift_img_url')
+    
+    group_id = session['group_id']
+    
+    # Firestoreのグループドキュメントへの参照を取得
+    group_doc_ref = db.collection('groups').document(group_id)
+    
+    # ギフト情報をデータベースに保存
+    group_doc_ref.set({
+        'gifts': firestore.ArrayUnion([{
+            'name': gift_name,
+            'url': gift_url,
+            'price': gift_price,
+            'img_url': gift_img_url
+        }])
+    }, merge=True)
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="localhost", port=8000)

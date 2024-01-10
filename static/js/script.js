@@ -56,3 +56,18 @@ function submitResponse(responseType) {
         });
     });
 }
+
+function GiftSettingResponse(name, url, price, img) {
+    fetch('/submit_giftsettingresponse', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'gift_name': name,
+            'gift_url': url,
+            'gift_price': price,
+            'gift_img_url': img,
+        }),
+    })
+}
