@@ -110,7 +110,7 @@ def submit():
         # ドキュメントにデータを更新
         schedules_doc.set({'username': username_list, 'answer': answer_list}, merge=True)
 
-    group_count=schedules_doc.get().to_dict()["group_count"]
+    group_count=schedules_doc.get().to_dict()["num_of_people"]
     member_count=len(schedules_doc.get().to_dict()["username"])
     # 人数分集まったかを判定
     if member_count==group_count:
