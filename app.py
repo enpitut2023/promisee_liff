@@ -6,10 +6,15 @@ import secrets
 import string
 from datetime import timedelta, datetime
 import pytz
+import os
 
-# データベースの準備等
-cred = credentials.Certificate("key.json")
+# # データベースの準備等
+# cred = credentials.Certificate("key.json")
+# サービス アカウント キー ファイルへのパスを環境変数から取得
+firebase_admin_key_path = os.environ.get('FIREBASE_ADMIN_KEY_PATH')
 
+# Firebase Admin SDK を初期化
+cred = credentials.Certificate(firebase_admin_key_path)
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 group_doc_ref = db.collection('groups')

@@ -1,0 +1,18 @@
+runtime: python38
+env: standard
+service: default
+entrypoint: gunicorn app:app
+
+env_variables:
+  FIREBASE_ADMIN_KEY_PATH: 'key.json'
+
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: automatic
+  min_pending_latency: automatic
+  max_pending_latency: automatic
+
+handlers:
+- url: .*
+  secure: always
+  script: auto

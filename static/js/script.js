@@ -24,10 +24,15 @@ function submitResponse(responseType) {
         .then(response => response.json())
         .then(data => {
             if(data.judge==2){
+                min_price = data.min_price
+                max_price = data.max_price
+                // URLを構築
+                var url = "https://liff.line.me/2002642249-Lq0RX2ZN?min_price=" + min_price + "&max_price=" + max_price;                
+
                 liff.sendMessages([
                     {
                         "type":"text",
-                        "text":"https://gift.line.me/item/6517019"
+                        "text":"送るギフトを選ぶのだ！\n" + url 
                     }
                 ])
                 print(data.judge)
