@@ -84,9 +84,16 @@ def submit():
 
     schedule_id = session['schedule_id'] 
     schedules_doc = schedules_doc_ref.document(schedule_id)
+    schedule_data = schedules_doc.get().to_dict()
 
     # 同じユーザーがすでにデータベースに格納されていないかを判定
-    usernames = schedules_doc.get().to_dict()["username"]
+    usernames = schedule_data["username"]
+    min_price = 0
+    max_price = 1000
+    if 'min_price' in schedule_data:
+        min_price = schedule_data["min_price"]
+    if 'max_price' in schedule_data:
+        max_price = schedule_data['max_price']
 
     if username not in usernames:
 
@@ -114,9 +121,9 @@ def submit():
             schedules_doc.delete()
             print(f"スケジュール {schedule_id} が削除されました。")
             if answer=='yes':
-                return jsonify({'result': True, 'message': 'yes','judge':2})
+                return jsonify({'result': True, 'message': 'yes','judge':2,'max_price': {max_price},'min_price': {min_price}})
             else:
-                return jsonify({'result': True, 'message': 'no','judge':2})
+                return jsonify({'result': True, 'message': 'no','judge':2,'max_price': {max_price},'min_price': {min_price}})
         # 全員間に合った場合
         else:
             schedules_doc.delete()
@@ -127,9 +134,9 @@ def submit():
                 return jsonify({'result': True, 'message': 'no','judge':1})
     else:
         if answer=='yes':
-            return jsonify({'result': True, 'message': 'yes','judge':0})
+            return jsonify({'result': True, 'message': 'yes','judge':0,'max_price': {max_price},'min_price': {min_price}})
         else:
-            return jsonify({'result': True, 'message': 'no','judge':0})
+            return jsonify({'result': True, 'message': 'no','judge':0,'max_price': {max_price},'min_price': {min_price}})
 
 
 if __name__ == '__main__':
