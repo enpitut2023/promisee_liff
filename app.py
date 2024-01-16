@@ -121,9 +121,9 @@ def submit():
             schedules_doc.delete()
             print(f"スケジュール {schedule_id} が削除されました。")
             if answer=='yes':
-                return jsonify({'result': True, 'message': 'yes','judge':2,'max_price': {max_price},'min_price': {min_price}})
+                return jsonify({'result': True, 'message': 'yes','judge':2,'max_price': max_price,'min_price': min_price})
             else:
-                return jsonify({'result': True, 'message': 'no','judge':2,'max_price': {max_price},'min_price': {min_price}})
+                return jsonify({'result': True, 'message': 'no','judge':2,'max_price': max_price,'min_price': min_price})
         # 全員間に合った場合
         else:
             schedules_doc.delete()
