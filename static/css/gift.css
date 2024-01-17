@@ -1,0 +1,33 @@
+h2 {
+    margin: 0 auto;
+    font-size: 2rem;
+}
+
+body{
+    margin: 0 auto;
+    text-align: center;
+}
+
+p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.contents{
+    margin-top: 80px;
+}
+
+.button-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4285f4; /* ボタンの背景色 */
+    color: #ffffff; /* ボタンのテキスト色 */
+    text-decoration: none;
+    border-radius: 5px; /* ボタンの角丸 */
+    transition: background-color 0.3s ease; /* ホバーエフェクト用のトランジション */
+}
+
+/* ホバーエフェクト */
+.button-link:hover {
+    background-color: #3367d6; /* ホバー時の背景色 */
+}
