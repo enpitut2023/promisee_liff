@@ -18,7 +18,7 @@
                     <h2>{{ gift.to_dict()['name'] }}</h2>
                     <img src="{{ gift.to_dict()['image_url'] }}" alt="{{ gift.to_dict()['name'] }}" width="300">
                     <p>価格: ¥{{ gift.to_dict()['price'] }}</p>
-                    <a href="{{ gift.to_dict()['gift_url'] }}" class='button-link' target="_blank">詳細を見る</a>
+                    <a href="{{ gift.to_dict()['gift_url'] }}" class='button-link' target="_blank">このギフトを送る</a>
                 </div>
             {% endif %}
         {% endfor %}
