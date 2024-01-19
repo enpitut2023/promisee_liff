@@ -139,9 +139,9 @@ def submit():
                 return jsonify({'result': True, 'message': 'no','judge':1})
     else:
         if answer=='yes':
-            return jsonify({'result': True, 'message': 'yes','judge':0,'max_price': {max_price},'min_price': {min_price}})
+            return jsonify({'result': True, 'message': 'yes','judge':0,'max_price': max_price,'min_price': min_price})
         else:
-            return jsonify({'result': True, 'message': 'no','judge':0,'max_price': {max_price},'min_price': {min_price}})
+            return jsonify({'result': True, 'message': 'no','judge':0,'max_price': max_price,'min_price': min_price})
 
 
 if __name__ == '__main__':

@@ -7,9 +7,7 @@ liff.init({
 function submitResponse(responseType) {
     liff.getProfile().then(profile => {
         const userName = profile.displayName;
-        // ボタンを無効にする
-        document.getElementById('yesButton').disabled = true;
-        document.getElementById('noButton').disabled = true;
+
         // Send data to Flask backend
         fetch('/submit_response', {
             method: 'POST',
@@ -52,6 +50,9 @@ function submitResponse(responseType) {
             } else {
                 alert('やらかしたのだ〜');  // エラーメッセージを表示
             }
+                    // ボタンを無効にする
+            document.getElementById('yesButton').disabled = true;
+            document.getElementById('noButton').disabled = true;
 
             // Close the LIFF window
             liff.closeWindow();
